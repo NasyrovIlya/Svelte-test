@@ -1,8 +1,9 @@
 <script>
-	import { append } from "svelte/internal";
-
 	import Card from "./card.svelte";
-	import Page from "./pagination.svelte";
+	import Page from "./page.svelte";
+
+	import { getDateFromUrl } from "./utl/helper";
+	import { onMount } from "svelte";
 
 	const URLALBUMS = "https://jsonplaceholder.typicode.com/albums";
 	const COUNT_ELEM = 9;
@@ -11,20 +12,18 @@
 	$: start = page * COUNT_ELEM - (COUNT_ELEM - 1);
 	$: end = page * COUNT_ELEM;
 
-	let name = "Каталог альбомов: ";
-	let date = getDateFromUrl(URLALBUMS);	
+	let date = [];
+	let countPage = 0;
 
-	async function getDateFromUrl(url) {
-		const responce = await fetch(url);
-		let db = await responce.json();
-		return db;
-	}
-
-	function getCountPage(data) {
-		if (data) {
-			return Math.ceil(data.length / COUNT_ELEM);
+	onMount(async () => {
+		date = await getDateFromUrl(URLALBUMS);
+		if (date.length > 0) {
+			countPage = Math.ceil(date.length / COUNT_ELEM);
 		}
-	}
+		else {
+			countPage = 1;
+		}
+	});
 
 	function handleOnPagin(event) {
 		if (event.target.closest(".link")) {
@@ -33,25 +32,20 @@
 	}
 </script>
 
-<h1>{name}</h1>
-
-{#await date}
-	<p>... Получаем данные</p>
-{:then item}
+{#if date.length > 0}
 	<div class="main">
-		<Card startPage={start} endPage={end} date = {item} />
-		<Page on:click={handleOnPagin} countPage={getCountPage(item)} />
+		<Card startPage={start} endPage={end} date={date} />
+		<Page on:click={handleOnPagin} {countPage} />
 	</div>
-{/await}
+{:else}
+	<p>Данных пока нет</p>
+{/if}
 
 <style>
-	h1 {
-		color: #ff3e00;
-	}
 	.main {
 		height: 100%;
 		width: 80%;
-		padding: 1em;
-		margin-bottom: 1em;
+		padding: 5px;
+		margin-bottom: 5px;
 	}
 </style>

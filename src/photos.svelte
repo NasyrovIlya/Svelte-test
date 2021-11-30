@@ -3,15 +3,15 @@
 
     const URLPHORO = "https://jsonplaceholder.typicode.com/photos";
 
-    export let showModal = false;
     export let id = 1;
+    // export let photos = [];
 
-    async function getDateFromUrl(url) {
-        const responce = await fetch(url);
-        return await responce.json();
-    }
+    // async function getDateFromUrl(url) {
+    //     const responce = await fetch(url);
+    //     return await responce.json();
+    // }
 
-    let photos = getDateFromUrl(`${URLPHORO}?albumId=${id}`);
+    // let photos = getDateFromUrl(`${URLPHORO}?albumId=${id}`);
 
     function handleModal() {
         showModal = false;
@@ -20,7 +20,7 @@
 
 {#if showModal}
     <!-- <Modal on:close={handleModal}> -->
-    {#await photos}
+    <!-- {#await photos}
         <p>...Получаем данные</p>
     {:then photos}    
         {#each photos as photo}
@@ -30,7 +30,7 @@
         <p style="color: red">
             При получении данных произошла ошибка: {error.message}
         </p>
-    {/await}
+    {/await} -->
     <!-- </Modal> -->
 {:else}
     ..иначе

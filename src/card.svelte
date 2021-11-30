@@ -6,7 +6,7 @@
     export let date = [];
 
     let showModal = false;
-    let id = 1;
+    let id = 0;
 
     function clickHandler(event) {
         showModal = true;
@@ -25,13 +25,13 @@
 {/each}
 
 {#if showModal}
-    <Photos {showModal} {id} />
+    <Photos {id} />
 {/if}
 
 <style>
     .wrap {
-        padding: 1em;
-        margin-bottom: 1em;
+        padding: 10px;
+        margin-bottom: 10px;
         background-color: aliceblue;
         border: 1px solid black;
         cursor: pointer;

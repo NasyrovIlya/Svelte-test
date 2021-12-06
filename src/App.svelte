@@ -19,8 +19,7 @@
 		date = await getDateFromUrl(URLALBUMS);
 		if (date.length > 0) {
 			countPage = Math.ceil(date.length / COUNT_ELEM);
-		}
-		else {
+		} else {
 			countPage = 1;
 		}
 	});
@@ -32,20 +31,28 @@
 	}
 </script>
 
-{#if date.length > 0}
-	<div class="main">
-		<Card startPage={start} endPage={end} date={date} />
-		<Page on:click={handleOnPagin} {countPage} />
-	</div>
-{:else}
-	<p>Данных пока нет</p>
-{/if}
+<main>
+	{#if date.length > 0}
+		<div class="main">
+			<Card startPage={start} endPage={end} {date} />
+			<Page on:click={handleOnPagin} {countPage} />
+		</div>
+	{:else}
+		<p>Данных пока нет</p>
+	{/if}
+</main>
 
 <style>
 	.main {
-		height: 100%;
-		width: 80%;
+		text-align: center;
 		padding: 5px;
-		margin-bottom: 5px;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	@media (min-width: 640px) {
+		main {
+			max-width: none;
+		}
 	}
 </style>

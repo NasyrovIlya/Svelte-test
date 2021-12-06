@@ -1,16 +1,24 @@
 <script>
     import Photos from "./photos.svelte";
+    import { getPhotos } from "./utl/helper";
 
     export let startPage = 1;
     export let endPage = 9;
     export let date = [];
 
-    let showModal = false;
+    let photo = [];
+
+    $: showModal = false;
     let id = 0;
 
-    function clickHandler(event) {
-        showModal = true;
+    async function clickHandler(event) {
         id = event.target.id;
+        showModal = true;
+        photo = await getPhotos(id);
+    }
+
+    function closeModal() {
+        showModal=false;
     }
 </script>
 
@@ -25,7 +33,7 @@
 {/each}
 
 {#if showModal}
-    <Photos {id} />
+    <Photos {showModal} {photo} on:onClose={closeModal} />
 {/if}
 
 <style>
